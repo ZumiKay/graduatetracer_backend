@@ -51,11 +51,15 @@ export const deleteForm = (req, res) => {
             return
         }
         if (result) {
-            res.status(200).send({ message: "Survey Deleted" })
+            answer.deleteMany({ Form_id: id }).then(() => {
+                res.status(200).send({ message: "Survey Deleted" })
+            })
+
         } else {
             res.status(500).send({ message: "Survey not found" })
         }
     })
+
 }
 export const createAnswer = (req, res) => {
     const { userIP, formid, Response } = req.body

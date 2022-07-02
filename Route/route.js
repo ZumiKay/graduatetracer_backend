@@ -1,5 +1,5 @@
 const { updateForm, deleteForm, createAnswer, createForm, getAnswerset, getForm } = require('../Controller/FromController')
-const { regsiter } = require('../Controller/Student')
+const { regsiter, getstudent, deletestudent } = require('../Controller/Student')
 const { registerAdmin, AdminLogin, logout, refreshtoken } = require('../Controller/user')
 const usermiddleware = require('../middleware/Usermiddleware')
 
@@ -14,8 +14,9 @@ router.post('/register', regsiter)
 router.post('/adminregister', registerAdmin)
 router.post('/login', AdminLogin)
 router.get('/logout', logout)
-
-//Form
+router.get('/getstudent', [usermiddleware.isAdmin], getstudent)
+router.delete('/deletestudent', [usermiddleware.isAdmin], deletestudent)
+    //Form
 router.post('/createForm', [usermiddleware.isAdmin], createForm)
 router.put('/updateform', [usermiddleware.isAdmin], updateForm)
 router.delete('/deleteform', [usermiddleware.isAdmin], deleteForm)

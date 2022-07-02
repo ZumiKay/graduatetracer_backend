@@ -16,10 +16,7 @@ const students = new Scehma({
         type: String,
         required: true
     },
-    Department: {
-        type: String,
-        required: true
-    }
+
 
 })
 

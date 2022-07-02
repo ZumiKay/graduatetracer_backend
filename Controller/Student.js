@@ -15,12 +15,35 @@ export const regsiter = (req, res) => {
                 Email: email,
                 Firstname: firstname,
                 Lastname: lastname,
-                Department: department
+
             })
             students.save().then(() => res.status(200).send({ message: "Student Registered" })).catch(err => {
                 res.status(500).send(err)
                 return
             })
+        }
+    })
+}
+export const getstudent = (req, res) => {
+    student.find({}, (err, student) => {
+        if (err) {
+            res.status(500).send({ message: err })
+        }
+        if (student) {
+            res.status(200).send({ student: student })
+        } else {
+            res.status(500).send({ message: "No Students" })
+        }
+    })
+}
+export const deletestudent = (req, res) => {
+    const { id } = req.body
+    student.findOneAndDelete({ _id: id }, (err, stu) => {
+        if (err) {
+            res.status(500).send({ message: err })
+        }
+        if (stu) {
+            res.status(200).send({ message: "Deleted" })
         }
     })
 }
