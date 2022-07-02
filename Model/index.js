@@ -3,5 +3,9 @@ Promise = global.Promise
 const db = {}
 db.mongoose = mongoose
 db.student = require('./student.model')
-
+db.user = require('./user.model')
+db.role = require('./Role.model')
+db.refreshToken = require('./RefreshToken.model')
+db.form = require('./Form.model')
+db.answer = require('./Answerset.model')
 module.exports = db
