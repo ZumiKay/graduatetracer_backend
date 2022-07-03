@@ -10,10 +10,10 @@ const cookie = require('cookie-session')
 require('dotenv').config()
 
 //middleware
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
-}))
+app.use(
+    cors({
+        origin: "*",
+    }))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.text())
@@ -27,7 +27,9 @@ app.use(cookie({
 }))
 
 // 
-
+app.get("/", (req, res) => {
+    res.status(200).send("hello")
+})
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, }).then(() => {
     console.log("Connected DB")
     initail()
