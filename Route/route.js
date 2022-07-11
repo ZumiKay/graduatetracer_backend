@@ -1,5 +1,5 @@
 const { updateForm, deleteForm, createAnswer, createForm, getAnswerset, getForm } = require('../Controller/FromController')
-const { regsiter, getstudent, deletestudent } = require('../Controller/Student')
+const { regsiter, getstudent, deletestudent, updatestudent } = require('../Controller/Student')
 const { registerAdmin, AdminLogin, logout, refreshtoken } = require('../Controller/user')
 const usermiddleware = require('../middleware/Usermiddleware')
 
@@ -10,11 +10,12 @@ const router = require('express').Router()
 router.get('/', (req, res) => {
     res.status(200).send("Hello not qoeld")
 })
-router.post('/register', regsiter)
+router.post('/register', [usermiddleware.isAdmin], regsiter)
 router.post('/adminregister', registerAdmin)
 router.post('/login', AdminLogin)
 router.get('/logout', logout)
 router.get('/getstudent', [usermiddleware.isAdmin], getstudent)
+router.put('/updatestudent', [usermiddleware.isAdmin], updatestudent)
 router.delete('/deletestudent', [usermiddleware.isAdmin], deletestudent)
     //Form
 router.post('/createForm', [usermiddleware.isAdmin], createForm)

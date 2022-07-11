@@ -16,7 +16,6 @@ const UserSchema = new Scehma({
     },
     token: {
         type: String,
-
     }
 })
 

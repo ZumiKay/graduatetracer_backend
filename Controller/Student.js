@@ -1,8 +1,8 @@
 const db = require('../Model/')
 const student = db.student
 export const regsiter = (req, res) => {
-    const { firstname, lastname, email, department } = req.body
-    student.findOne({ Email: email }, (err, match) => {
+    const { name, email } = req.body
+    student.findOne({ name: name }, (err, match) => {
         if (err) {
             res.status(500).send(err)
             return
@@ -12,9 +12,9 @@ export const regsiter = (req, res) => {
             return
         } else {
             const students = new student({
-                Email: email,
-                Firstname: firstname,
-                Lastname: lastname,
+                email: email,
+                name: name,
+
 
             })
             students.save().then(() => res.status(200).send({ message: "Student Registered" })).catch(err => {
@@ -33,6 +33,20 @@ export const getstudent = (req, res) => {
             res.status(200).send({ student: student })
         } else {
             res.status(500).send({ message: "No Students" })
+        }
+    })
+}
+export const updatestudent = (req, res) => {
+    const { user, id } = req.body
+    student.findOneAndUpdate({ _id: id }, { name: user.name, email: user.email }, (err, usr) => {
+        if (err) {
+            res.status(500).send({ message: err })
+            return
+        }
+        if (usr) {
+            res.status(200).send({ message: "Updated Successful" })
+        } else {
+            res.status(500).send({ message: "No User Found" })
         }
     })
 }

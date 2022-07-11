@@ -2,20 +2,17 @@ const mongoose = require('mongoose')
 const Scehma = mongoose.Schema
 
 const students = new Scehma({
-    Email: {
+    email: [{
+        type: String,
+        required: true
+
+    }],
+    name: {
         type: String,
         required: true
 
     },
-    Firstname: {
-        type: String,
-        required: true
 
-    },
-    Lastname: {
-        type: String,
-        required: true
-    },
 
 
 })

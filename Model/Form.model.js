@@ -6,9 +6,9 @@ const FormSchema = new Schema({
         type: String,
         required: true
     },
-    Department: {
-        type: String,
-    },
+    // Department: {
+    //     type: String,
+    // },
     contents: [{
         type: Object,
 
