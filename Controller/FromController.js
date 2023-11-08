@@ -5,11 +5,11 @@ export const createForm = (req, res) => {
 
     form.findOne({ title }, (err, match) => {
         if (err) {
-            res.status(500).send({ message: err })
-            return
+            return res.status(500).json({ message: err })
+            
         }
         if (match) {
-            res.status(500).send({ message: "Form Title Existed Please Change" })
+            return res.status(500).json({ message: "Form Title Existed Please Change" })
         } else {
             const survey = new form({
                 title: title,
@@ -18,10 +18,10 @@ export const createForm = (req, res) => {
             survey.save().then(() => {
                 form.findOne({ title }, (err, sur) => {
                     if (sur) {
-                        res.status(200).send({ data: sur })
+                        return res.status(200).json({ data: sur })
                     }
                 })
-            })
+            }).catch((error) => res.status(500).json({message: error}))
 
         }
     })
@@ -32,12 +32,12 @@ export const updateForm = (req, res) => {
 
     form.findByIdAndUpdate(id, { title: title, contents: content }, (err, result) => {
         if (err) {
-            res.status(500).send({ message: err })
+            return res.status(500).json({ message: err })
         }
         if (result) {
-            res.status(200).send({ message: "Survey Updated" })
+            return res.status(200).json({ message: "Survey Updated" })
         } else {
-            res.status(500).send({ message: "Survey not found" })
+            return res.status(500).json({ message: "Survey not found" })
         }
     })
 
@@ -47,16 +47,16 @@ export const deleteForm = (req, res) => {
     const { id } = req.body
     form.findOneAndDelete({ _id: id }, (err, result) => {
         if (err) {
-            res.status(500).send({ message: err })
-            return
+            return res.status(500).json({ message: err })
+            
         }
         if (result) {
             answer.deleteMany({ Form_id: id }).then(() => {
-                res.status(200).send({ message: "Survey Deleted" })
+                return res.status(200).json({ message: "Survey Deleted" })
             })
 
         } else {
-            res.status(500).send({ message: "Survey not found" })
+            return res.status(500).json({ message: "Survey not found" })
         }
     })
 
@@ -71,22 +71,22 @@ export const createAnswer = (req, res) => {
 
     })
     Ans.save().then(() => {
-        res.status(200).send({ message: "Answer Saved" })
+        return res.status(200).json({ message: "Answer Saved" })
     }).catch(err => {
-        res.status(500).send({ message: err })
+        return res.status(500).json({ message: err })
     })
 }
 export const getAnswerset = (req, res) => {
     const { formid } = req.params
     answer.find({ Form_id: formid }, (err, ans) => {
         if (err) {
-            res.status(500).send({ message: err })
-            return
+            return res.status(500).json({ message: err })
+            
         }
         if (ans) {
-            res.status(200).send({ answer: ans })
+            return res.status(200).json({ answer: ans })
         } else {
-            res.status(500).send({ message: "There are no answer yet" })
+            return res.status(500).json({ message: "There are no answer yet" })
         }
     })
 
@@ -95,14 +95,12 @@ export const getForm = (req, res) => {
 
     form.find({}, (err, survey) => {
         if (err) {
-            res.status(500).send({ message: err })
-            return
-
+            return res.status(500).json({ message: err })
         }
         if (survey) {
-            res.status(200).send({ survey: survey })
+            return res.status(200).json({ survey: survey })
         } else {
-            res.status(500).send({ message: "Survey not exist" })
+            return res.status(500).json({ message: "Survey not exist" })
         }
 
     })

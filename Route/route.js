@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 router.post('/register', [usermiddleware.isAdmin], regsiter)
 router.post('/adminregister', registerAdmin)
 router.post('/login', AdminLogin)
-router.get('/logout', logout)
+router.post('/logout', logout)
 router.get('/getstudent', [usermiddleware.isAdmin], getstudent)
 router.put('/updatestudent', [usermiddleware.isAdmin], updatestudent)
 router.delete('/deletestudent', [usermiddleware.isAdmin], deletestudent)

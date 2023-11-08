@@ -7,22 +7,24 @@ const { user, role } = require('../Model')
 
 isAdmin = (req, res, next) => {
     let token = req.headers['x-access-token']
-    user.findOne({ token: token }, (err, match) => {
+    const auth = jwt.decode(token)
+   
+    user.findOne({ email: auth.email }, (err, match) => {
         if (err) {
-            res.status(500).send({ message: err })
-            return
+            return res.status(500).json({ message: err })
+            
         }
         if (match) {
             role.findOne({ _id: match.role._id }, (err, role) => {
                 if (err) {
-                    res.status(500).send({ message: err })
-                    return
+                    return res.status(500).json({ message: err })
+                    
                 }
                 if (role.name === 'admin') {
                     next()
                 } else {
-                    res.status(500).send({ message: "Restricted Data" })
-                    return
+                    return res.status(500).json({ message: "Restricted Data" })
+                    
                 }
             })
         }

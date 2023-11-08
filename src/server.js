@@ -10,10 +10,7 @@ const cookie = require('cookie-session')
 require('dotenv').config()
 
 //middleware
-app.use(
-    cors({
-        origin: "*",
-    }))
+app.use(cors({origin: "*"}))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.text())
@@ -39,7 +36,6 @@ mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTo
 })
 app.listen(process.env.PORT || 8000, console.log("Server run on " + process.env.PORT))
 app.use('/api', Route)
-
 function initail() {
     role.estimatedDocumentCount((err, count) => {
         if (!err && count === 0) {

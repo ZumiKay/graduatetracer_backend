@@ -4,12 +4,12 @@ export const regsiter = (req, res) => {
     const { name, email } = req.body
     student.findOne({ name: name }, (err, match) => {
         if (err) {
-            res.status(500).send(err)
-            return
+            return res.status(500).json(err)
+            
         }
         if (match) {
-            res.status(500).send({ message: "Email has Already Registered" })
-            return
+            return res.status(500).json({ message: "Email has Already Registered" })
+            
         } else {
             const students = new student({
                 email: email,
@@ -18,21 +18,21 @@ export const regsiter = (req, res) => {
 
             })
             students.save().then(() => res.status(200).send({ message: "Student Registered" })).catch(err => {
-                res.status(500).send(err)
-                return
+               return res.status(500).json(err)
+                
             })
         }
     })
 }
 export const getstudent = (req, res) => {
-    student.find({}, (err, student) => {
+    student.find({}, (err , student) => {
         if (err) {
-            res.status(500).send({ message: err })
+           return res.status(500).json({ message: err })
         }
         if (student) {
-            res.status(200).send({ student: student })
+            return res.status(200).json({ student: student })
         } else {
-            res.status(500).send({ message: "No Students" })
+           return res.status(500).json({ message: "No Students" })
         }
     })
 }
@@ -40,13 +40,13 @@ export const updatestudent = (req, res) => {
     const { user, id } = req.body
     student.findOneAndUpdate({ _id: id }, { name: user.name, email: user.email }, (err, usr) => {
         if (err) {
-            res.status(500).send({ message: err })
-            return
+            return res.status(500).send({ message: err })
+            
         }
         if (usr) {
-            res.status(200).send({ message: "Updated Successful" })
+            return res.status(200).send({ message: "Updated Successful" })
         } else {
-            res.status(500).send({ message: "No User Found" })
+            return res.status(500).send({ message: "No User Found" })
         }
     })
 }
@@ -54,10 +54,10 @@ export const deletestudent = (req, res) => {
     const { id } = req.body
     student.findOneAndDelete({ _id: id }, (err, stu) => {
         if (err) {
-            res.status(500).send({ message: err })
+            return res.status(500).json({ message: "Error Occured" })
         }
         if (stu) {
-            res.status(200).send({ message: "Deleted" })
+           return res.status(200).json({ message: "Student Deleted" })
         }
     })
 }
