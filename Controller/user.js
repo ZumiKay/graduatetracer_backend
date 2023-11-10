@@ -66,8 +66,8 @@ export const AdminLogin = async(req, res) => {
                return res.status(500).json({ message: "Wrong Credential" })
                 
             } else {
-                const accesstoken = jwt.sign({role : user.role._id , email: user.email} , process.env.JWT_SECRET , {expiresIn: '7d'})
-                const refreshToken = jwt.sign({role : user.role._id , email: user.email} , process.env.JWT_SECRET , {expiresIn: '14d'})
+                const accesstoken = jwt.sign({id : user._id , role: user.role.name , email: user.email} , process.env.JWT_SECRET , {expiresIn: '7d'})
+                const refreshToken = jwt.sign({id : user._id , role: user.role.name ,email: user.email} , process.env.JWT_SECRET , {expiresIn: '14d'})
                 refreshtoken.push(refreshToken)
                 
                 res.status(200).json({

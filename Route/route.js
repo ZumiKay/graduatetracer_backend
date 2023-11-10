@@ -1,7 +1,8 @@
-const { updateForm, deleteForm, createAnswer, createForm, getAnswerset, getForm } = require('../Controller/FromController')
+const { updateForm, deleteForm, createAnswer, createForm, getAnswerset, getForm, sendform } = require('../Controller/FromController')
 const { regsiter, getstudent, deletestudent, updatestudent } = require('../Controller/Student')
-const { registerAdmin, AdminLogin, logout, refreshtoken } = require('../Controller/user')
-const usermiddleware = require('../middleware/Usermiddleware')
+const { registerAdmin, AdminLogin, logout } = require('../Controller/user')
+const { verifyToken, checkRole } = require('../middleware/Usermiddleware')
+
 
 
 const router = require('express').Router()
@@ -10,20 +11,21 @@ const router = require('express').Router()
 router.get('/', (req, res) => {
     res.status(200).send("Hello not qoeld")
 })
-router.post('/register', [usermiddleware.isAdmin], regsiter)
+router.post('/register', verifyToken, checkRole("admin"), regsiter)
 router.post('/adminregister', registerAdmin)
 router.post('/login', AdminLogin)
 router.post('/logout', logout)
-router.get('/getstudent', [usermiddleware.isAdmin], getstudent)
-router.put('/updatestudent', [usermiddleware.isAdmin], updatestudent)
-router.delete('/deletestudent', [usermiddleware.isAdmin], deletestudent)
+router.get('/getstudent', verifyToken, checkRole("admin"), getstudent)
+router.put('/updatestudent', verifyToken, checkRole("admin"), updatestudent)
+router.delete('/deletestudent', verifyToken, checkRole("admin"), deletestudent)
     //Form
-router.post('/createForm', [usermiddleware.isAdmin], createForm)
-router.put('/updateform', [usermiddleware.isAdmin], updateForm)
-router.delete('/deleteform', [usermiddleware.isAdmin], deleteForm)
+router.post('/createForm', verifyToken, checkRole("admin"), createForm)
+router.put('/updateform', verifyToken, checkRole("admin"), updateForm)
+router.delete('/deleteform', verifyToken, checkRole("admin"), deleteForm)
 router.post('/createAnswer', createAnswer)
-router.get("/getanswer/:formid", [usermiddleware.isAdmin], getAnswerset)
+router.get("/getanswer/:formid", verifyToken, checkRole("admin"), getAnswerset)
 router.get("/getform", getForm)
+router.post("/sendform" , verifyToken, checkRole("admin") ,sendform)
 
 
 module.exports = router
